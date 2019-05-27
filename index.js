@@ -19,7 +19,7 @@ function renderResults(responseJson) {
         <h3>Nutrition Facts:</h3>
         <ul id="exampleNutritionFacts">
         <li>Serves: ${exampleYield}</li>
-        <li>Calories: ${exampleCal}kCal</li>
+        <li>Calories: ${exampleCal} kCal</li>
         <li>Carbohydrates: ${exampleCho}g</li>
         <li>Protein: ${examplePro}g</li>
         <li>Fats: ${exampleFat}g</li>
@@ -35,7 +35,7 @@ function renderResults(responseJson) {
     $('#exampleRecipe').removeClass('hidden');
 }
 
-function getRecipes() {
+function getRecipe() {
     const url = `https://api.edamam.com/search?q=${query}&app_id=${appID}&app_key=${appKey}`;
 
     fetch(url)
@@ -54,5 +54,6 @@ function getRecipes() {
 
 $(function() {
     console.log('EATWE11 ready');
-    getRecipes();
+    getRecipe();
+    console.log('Getting example recipe');
 });

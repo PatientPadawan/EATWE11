@@ -29,6 +29,9 @@ nav {
 header {
     padding: 12% 0;
     height: 100vh;
+    background-image: url('./images/Original.png') no-repeat center center;
+    background-size: cover;
+    border: solid black 2px;
 }
 
 section {
