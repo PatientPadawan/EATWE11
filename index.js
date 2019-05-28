@@ -11,7 +11,7 @@ function renderResults(responseJson) {
     const exampleCho = Math.round(responseJson.hits[0].recipe.totalNutrients.CHOCDF['quantity'] / exampleYield);
     const exampleCal = Math.round(responseJson.hits[0].recipe.totalNutrients.ENERC_KCAL['quantity'] / exampleYield);
 
-    $('#exampleRecipe').append(
+    $('#exampleRecipe').prepend(
         `<h2>${responseJson.hits[0].recipe.label}</h2>
         <img src="${responseJson.hits[0].recipe.image}" alt="picture of recipe">
         <h3 class="headers">Ingredients</h3>
@@ -25,7 +25,6 @@ function renderResults(responseJson) {
         <li>Fats: ${exampleFat}g</li>
         </ul>
         <h3 class="headers"><a href="${responseJson.hits[0].recipe.url}" target="_blank">Directions</a><h3>
-        <button type="button" class="shopRecipe" id="whisk-button">Shop recipe!</button>
         `
     )
     

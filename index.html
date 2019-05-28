@@ -21,18 +21,20 @@
             </header>
 
             <p id="js-error-message" class="error-message"></p>
-            <section id="exampleRecipe" class="hidden"></section>
-            <script>
-                whisk.queue.push(function() {
-                    whisk.listeners.addClickListener('whisk-button', 'shoppingList.addRecipeToList', {
-                        recipeUrl: 'http://www.seriouseats.com/recipes/2011/12/chicken-vesuvio-recipe.html',
-                    });
-                });
-            </script>
+            <section id="exampleRecipe" class="hidden">
+                    <button type="button" class="shopRecipe" id="whisk-button">Shop recipe!</button>
+            </section>
         </main>    
     <footer>
         <!-- <button type="button" class="js-refresh-button"></button> -->
     </footer>
     <script src="index.js"></script>
+    <script>
+        whisk.queue.push(function() {
+            whisk.listeners.addClickListener('whisk-button', 'shoppingList.addRecipeToList', {
+                recipeUrl: 'http://www.seriouseats.com/recipes/2011/12/chicken-vesuvio-recipe.html',
+            });
+        });
+    </script>
     </body>
 </html>
