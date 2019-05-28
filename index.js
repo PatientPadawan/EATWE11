@@ -2,7 +2,16 @@
 
 const appID = '970294f3';
 const appKey = '48eb586b09ce231c601672ea32d2256a';
-let query = 'chicken'
+let query = 'egg'
+
+function shopify(responseJson) {
+    whisk.queue.push(function() {
+        whisk.listeners.addClickListener('whisk-button', 'shoppingList.addRecipeToList', {
+            recipeUrl: `${responseJson.hits[0].recipe.url}`,
+        });
+    });
+    console.log('whisk ran');
+}
 
 function renderResults(responseJson) {
     const exampleYield = responseJson.hits[0].recipe.yield;
@@ -34,6 +43,8 @@ function renderResults(responseJson) {
     }
 
     $('#exampleRecipe').removeClass('hidden');
+    
+    shopify(responseJson);
 }
 
 function getRecipe() {
