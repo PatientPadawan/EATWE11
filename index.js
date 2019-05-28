@@ -14,9 +14,9 @@ function renderResults(responseJson) {
     $('#exampleRecipe').append(
         `<h2>${responseJson.hits[0].recipe.label}</h2>
         <img src="${responseJson.hits[0].recipe.image}" alt="picture of recipe">
-        <h3>Ingredients:</h3>
+        <h3 class="headers">Ingredients</h3>
         <ul id="exampleIngredientsList"></ul>
-        <h3>Nutrition Facts:</h3>
+        <h3 class="headers">Nutrition Facts</h3>
         <ul id="exampleNutritionFacts">
         <li>Serves: ${exampleYield}</li>
         <li>Calories: ${exampleCal} kCal</li>
@@ -24,10 +24,12 @@ function renderResults(responseJson) {
         <li>Protein: ${examplePro}g</li>
         <li>Fats: ${exampleFat}g</li>
         </ul>
-        <h3><a href="${responseJson.hits[0].recipe.url}" target="_blank">Directions</a><h3>
+        <h3 class="headers"><a href="${responseJson.hits[0].recipe.url}" target="_blank">Directions</a><h3>
+        <button type="button" class="shopRecipe" id="whisk-button">Shop recipe!</button>
         `
     )
     
+    console.log(responseJson.hits[0].recipe.url);
     for (let i = 0; i < responseJson.hits[0].recipe.ingredientLines.length; i++) {
      $('#exampleIngredientsList').append(`<li>${responseJson.hits[0].recipe.ingredientLines[i]}<li>`);   
     }

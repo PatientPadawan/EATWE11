@@ -4,20 +4,35 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>EAT WE11</title>
+        <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville|Noto+Sans+HK&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
         <link rel="stylesheet" href="main.css">
         <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+        <script async="true" src="https://cdn.whisk.com/sdk/shopping-list.js" type="text/javascript"></script>
+        <script>
+            var whisk = whisk || {};
+            whisk.queue = whisk.queue || [];
+        </script>
     </head>
     <body>
         <main role="main">
             <header role="banner">
-              <h1></h1>
+                <button type="button" class="js-start-button"></button>
             </header>
 
             <p id="js-error-message" class="error-message"></p>
             <section id="exampleRecipe" class="hidden"></section>
-          </main>    
+            <script>
+                whisk.queue.push(function() {
+                    whisk.listeners.addClickListener('whisk-button', 'shoppingList.addRecipeToList', {
+                        recipeUrl: 'http://www.seriouseats.com/recipes/2011/12/chicken-vesuvio-recipe.html',
+                    });
+                });
+            </script>
+        </main>    
+    <footer>
+        <!-- <button type="button" class="js-refresh-button"></button> -->
+    </footer>
     <script src="index.js"></script>
-    <footer>I'm a footer!</footer>
     </body>
 </html>
