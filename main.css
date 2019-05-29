@@ -32,6 +32,16 @@ header {
     height: 100vh;
 }
 
+button, input[type="submit"], input[type="reset"] {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
 .js-start-button {
     padding: 0;
     background: url(./images/Original.png) no-repeat center center fixed; 
@@ -76,7 +86,7 @@ h2 {
 
 section {
     min-height: 200px;
-    padding: 0;
+    padding: 7%;
     margin: 0;
     background-color: #F5EFD7;
 }
