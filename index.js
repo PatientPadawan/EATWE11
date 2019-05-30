@@ -13,6 +13,18 @@ function shopifyExample(responseJson) {
     console.log('whisk ran');
 }
 
+function shopify(responseJson) {
+    for (let i = 0; i < 3; i++) {
+        whisk.queue.push(function() {
+            whisk.listeners.addClickListener(`whisk-button${[i]}`, 'shoppingList.addRecipeToList', {
+                recipeUrl: `${responseJson.hits[i].recipe.url}`,
+            });
+        });
+        console.log(`whisk ran on recipe ${[i]}`);
+        console.log(responseJson.hits[i].recipe.url);
+    }
+}
+
 function renderResults(responseJson) {
     for (let i = 0; i < 3; i++) {
         let recipeYield = responseJson.hits[i].recipe.yield;
@@ -23,9 +35,9 @@ function renderResults(responseJson) {
 
         $('#results').append(
             `<h2>${responseJson.hits[i].recipe.label}</h2>
-            <img src="${responseJson.hits[i].recipe.image}" alt="picture of ${responseJson.hits[i].recipe.label}">
+            <img src="${responseJson.hits[i].recipe.image}" class="resultsImage" alt="picture of ${responseJson.hits[i].recipe.label}">
             <h3 class="headers">Ingredients</h3>
-            <ul id="IngredientsList"></ul>
+            <ul id="ingredientsList${[i]}"></ul>
             <h3 class="headers">Nutrition Facts</h3>
             <ul id="NutritionFacts">
             <li>Serves: ${recipeYield}</li>
@@ -35,18 +47,18 @@ function renderResults(responseJson) {
             <li>Fats: ${fat}g</li>
             </ul>
             <h3 class="headers"><a href="${responseJson.hits[i].recipe.url}" target="_blank">Directions</a><h3>
+            <button type="button" class="shopRecipe" id="whisk-button${[i]}">Shop recipe!</button>
             `
         )
         
         console.log(responseJson.hits[i].recipe.url);
         for (let c = 0; c < responseJson.hits[i].recipe.ingredientLines.length; c++) {
-            $('#IngredientsList').append(`<li>${responseJson.hits[i].recipe.ingredientLines[c]}<li>`);   
+            $(`#ingredientsList${[i]}`).append(`<li>${responseJson.hits[i].recipe.ingredientLines[c]}<li>`);   
         }
-
-        $('#results').removeClass('hidden');
-        // shopify(responseJson);
-
     }
+    
+    $('#results').removeClass('hidden');
+    shopify(responseJson);
 }
 
 
@@ -58,8 +70,8 @@ function getRecipe(breakfastQuery, lunchQuery, dinnerQuery) {
         }
         throw new Error('broken');
     })
-    .then(responseJson => console.log(responseJson))
-    // .then(responseJson => renderResults(responseJson))
+    // .then(responseJson => console.log(responseJson))
+    .then(responseJson => renderResults(responseJson))
     .catch(err => {
         $('#js-error-message').text(`That didn't work!`)
         $('#js-error-message').removeClass('hidden');
@@ -189,7 +201,7 @@ function renderExample(responseJson) {
 
     $('#exampleRecipe').prepend(
         `<h2>${responseJson.hits[0].recipe.label}</h2>
-        <img src="${responseJson.hits[0].recipe.image}" alt="picture of ${responseJson.hits[0].recipe.label}">
+        <img src="${responseJson.hits[0].recipe.image}" class="resultsImage" alt="picture of ${responseJson.hits[0].recipe.label}">
         <h3 class="headers">Ingredients</h3>
         <ul id="exampleIngredientsList"></ul>
         <h3 class="headers">Nutrition Facts</h3>
