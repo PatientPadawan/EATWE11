@@ -77,16 +77,41 @@ function getRecipe(breakfastQuery, lunchQuery, dinnerQuery) {
         $('#js-error-message').removeClass('hidden');
     });
 
-    // fetch(lunchQuery)
-    // fetch(dinnerQuery)
+    fetch(lunchQuery)
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('broken');
+    })
+    // .then(responseJson => console.log(responseJson))
+    .then(responseJson => renderResults(responseJson))
+    .catch(err => {
+        $('#js-error-message').text(`That didn't work!`)
+        $('#js-error-message').removeClass('hidden');
+    });
+
+    fetch(dinnerQuery)
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('broken');
+    })
+    // .then(responseJson => console.log(responseJson))
+    .then(responseJson => renderResults(responseJson))
+    .catch(err => {
+        $('#js-error-message').text(`That didn't work!`)
+        $('#js-error-message').removeClass('hidden');
+    });
 }
 
 function generateUserRecipeQuery(userTDEE) {
     let calPerMealMin = Math.round(userTDEE / 3 - 50)
     let calPerMealMax = Math.round(userTDEE / 3 + 50)
     let breakfastQuery = `https://api.edamam.com/search?q=&app_id=${appID}&app_key=${appKey}&dishtype=breakfast&calories=${calPerMealMin}-${calPerMealMax}`;
-    let lunchQuery = `https://api.edamam.com/search?q=&app_id=${appID}&app_key=${appKey}&diet=balanced&dishType=lunch&calories=${calPerMealMin}-${calPerMealMax}`;
-    let dinnerQuery = `https://api.edamam.com/search?q=&app_id=${appID}&app_key=${appKey}&diet=balanced&dishType=dinner&calories=${calPerMealMin}-${calPerMealMax}`;
+    let lunchQuery = `https://api.edamam.com/search?q=&app_id=${appID}&app_key=${appKey}&diet=balanced&dishtype=lunch&calories=${calPerMealMin}-${calPerMealMax}`;
+    let dinnerQuery = `https://api.edamam.com/search?q=&app_id=${appID}&app_key=${appKey}&diet=balanced&dishtype=dinner&calories=${calPerMealMin}-${calPerMealMax}`;
 
     console.log('generating user recipe query!');
     console.log(userTDEE, calPerMealMin, calPerMealMax);
@@ -118,8 +143,10 @@ function watchUserInput() {
         const userAge = $('#age').val();
         const userActivityLevel = $('input[name=activityLevel]:checked').val()
         const userSex = $("input[name=sex]:checked").val();
-        console.log(userHeight, userWeight, userAge, userActivityLevel, userSex);
+        
+        $('#exampleRecipe').addClass('hidden');
 
+        console.log(userHeight, userWeight, userAge, userActivityLevel, userSex);
         userTDEECalc(userHeight, userWeight, userAge, userActivityLevel, userSex);
     });
 
