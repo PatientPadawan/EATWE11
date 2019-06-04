@@ -43,16 +43,17 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 .js-start-button {
-    padding: 0;
-    background: url(./images/Original.png) no-repeat center center fixed; 
+    background: url(./images/Original.png) no-repeat center center; 
+    background-size: cover;
+    background-attachment: fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover;
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
     width: 100%;
     border-style: none;
+    padding: 0;
 }
 
 header:hover {
