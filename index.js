@@ -22,6 +22,13 @@ function shopify(responseJson) {
     scrollToForm.scrollIntoView({behavior: 'smooth'});
 }
 
+function scrollToTop() {
+    $('.scrollToTop').click(event => {
+        const scrollToTop = document.getElementById("js-landing");
+        scrollToTop.scrollIntoView({behavior: 'smooth'});
+    });
+}
+
 function renderResults(responseJson) {
     for (let i = 0; i < 3; i++) {
         let recipeYield = responseJson.hits[i].recipe.yield;
@@ -46,15 +53,18 @@ function renderResults(responseJson) {
                         <li>Fats: ${fat}g</li>
                     </ul>
                 </div>
-            </div>
+                </div>
             `
         )
         
         console.log(responseJson.hits[i].recipe.url);
     }
     
+    $('#results').append(`<button class="scrollToTop headers hidden">^</button>`);
     $('#results').removeClass('hidden');
+    $('.scrollToTop').removeClass('hidden');
     shopify(responseJson);
+    scrollToTop();
 }
 
 
@@ -88,7 +98,6 @@ function generateRecipeKeyword(userTDEE) {
     const recipeKeywords = [
         "chicken",
         "bean",
-        "beef",
         "pasta",
         "taco",
         "salmon"
@@ -198,5 +207,4 @@ function watchStartButton() {
 $(function() {
     console.log('EATWE11 ready');
     watchStartButton();
-    console.log('Watching start button')
 });
