@@ -43,7 +43,9 @@ button, input[type="submit"], input[type="reset"] {
 }
 
 .js-start-button {
-    background: url(./images/Original.png) center no-repeat; 
+    background: url(./images/Original.png); 
+    background-repeat: no-repeat;
+    background-position: center;
     background-size: cover;
     background-attachment: initial;
     -webkit-background-size: cover;
