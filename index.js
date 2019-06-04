@@ -89,8 +89,6 @@ function generateRecipeKeyword(userTDEE) {
         "chicken",
         "bean",
         "beef",
-        "rice",
-        "orange",
         "pasta",
         "taco",
         "salmon"
