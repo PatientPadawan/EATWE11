@@ -2,7 +2,10 @@
 
 const appID = '970294f3';
 const appKey = '48eb586b09ce231c601672ea32d2256a';
-let query = 'oatmeal, yogurt'
+const query = 'oatmeal, yogurt'
+
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
 
 function shopifyExample(responseJson) {
     whisk.queue.push(function() {
@@ -256,8 +259,6 @@ function getExampleRecipe() {
 }
 
 $(function() {
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
     console.log('EATWE11 ready');
     getExampleRecipe();
     console.log('Getting example recipe');

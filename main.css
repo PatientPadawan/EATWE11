@@ -49,21 +49,9 @@ button, input[type="submit"], input[type="reset"] {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    height: 100%;
-    width: 100%;
-    border-style: none;
-}
-
-.js-refresh-button {
-    padding: 0;
-    background: url(./images/Grayscale\ on\ Transparent.png) no-repeat center center fixed; 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
-    width: auto;
+    width: 100%;
     border-style: none;
 }
 
