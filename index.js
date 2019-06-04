@@ -7,15 +7,6 @@ const query = 'oatmeal, yogurt'
 let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
 
-function shopifyExample(responseJson) {
-    whisk.queue.push(function() {
-        whisk.listeners.addClickListener('whisk-button', 'shoppingList.addRecipeToList', {
-            recipeUrl: `${responseJson.hits[0].recipe.url}`,
-        });
-    });
-    console.log('whisk ran');
-}
-
 function shopify(responseJson) {
     for (let i = 0; i < 3; i++) {
         whisk.queue.push(function() {
@@ -26,6 +17,9 @@ function shopify(responseJson) {
         console.log(`whisk ran on recipe ${[i]}`);
         console.log(responseJson.hits[i].recipe.url);
     }
+
+    const scrollToForm = document.getElementById("js-results-container");
+    scrollToForm.scrollIntoView({behavior: 'smooth'});
 }
 
 function renderResults(responseJson) {
@@ -37,33 +31,30 @@ function renderResults(responseJson) {
         let cal = Math.round(responseJson.hits[i].recipe.totalNutrients.ENERC_KCAL['quantity'] / recipeYield);
 
         $('#results').append(
-            `<h2>${responseJson.hits[i].recipe.label}</h2>
-            <img src="${responseJson.hits[i].recipe.image}" class="resultsImage" alt="picture of ${responseJson.hits[i].recipe.label}">
-            <h3 class="headers">Ingredients</h3>
-            <ul id="ingredientsList${[i]}"></ul>
-            <h3 class="headers">Nutrition Facts</h3>
-            <ul id="NutritionFacts">
-            <li>Serves: ${recipeYield}</li>
-            <li>Calories: ${cal} kCal</li>
-            <li>Carbohydrates: ${cho}g</li>
-            <li>Protein: ${pro}g</li>
-            <li>Fats: ${fat}g</li>
-            </ul>
-            <h3 class="headers"><a href="${responseJson.hits[i].recipe.url}" target="_blank">Directions</a><h3>
-            <button type="button" class="shopRecipe" id="whisk-button${[i]}">Shop recipe!</button>
+            `<div class="resultsContainer" id="js-results-container">
+                <h2>${responseJson.hits[i].recipe.label}</h2>
+                <img src="${responseJson.hits[i].recipe.image}" class="resultsImage" alt="picture of ${responseJson.hits[i].recipe.label}">
+                <button type="button" class="shopRecipe headers" id="whisk-button${[i]}">Shop</button>
+                <span class="recipeDirections headers"><a href="${responseJson.hits[i].recipe.url}" target="_blank">Directions</a></span>
+                <div class="factStyle">
+                    <h3 class="headers">Nutrition Facts</h3>
+                    <ul id="nutritionFacts">
+                        <li>Serves: ${recipeYield}</li>
+                        <li>Calories: ${cal} kCal</li>
+                        <li>Carbohydrates: ${cho}g</li>
+                        <li>Protein: ${pro}g</li>
+                        <li>Fats: ${fat}g</li>
+                    </ul>
+                </div>
+            </div>
             `
         )
         
         console.log(responseJson.hits[i].recipe.url);
-        for (let c = 0; c < responseJson.hits[i].recipe.ingredientLines.length; c++) {
-            $(`#ingredientsList${[i]}`).append(`<li>${responseJson.hits[i].recipe.ingredientLines[c]}<li>`);   
-        }
     }
     
     $('#results').removeClass('hidden');
     shopify(responseJson);
-    const scrollToForm = document.getElementById("results");
-    scrollToForm.scrollIntoView({behavior: 'smooth'});
 }
 
 
@@ -75,7 +66,6 @@ function getRecipe(recipeQuery) {
         }
         throw new Error('broken');
     })
-    // .then(responseJson => console.log(responseJson))
     .then(responseJson => renderResults(responseJson))
     .catch(err => {
         $('#js-error-message').text(`That didn't work!`)
@@ -97,7 +87,6 @@ function generateUserRecipeQuery(queryItem, userTDEE) {
 function generateRecipeKeyword(userTDEE) {
     const recipeKeywords = [
         "chicken",
-        "egg",
         "bean",
         "beef",
         "rice",
@@ -135,8 +124,6 @@ function watchUserInput() {
         const userAge = $('#age').val();
         const userActivityLevel = $('input[name=activityLevel]:checked').val()
         const userSex = $("input[name=sex]:checked").val();
-
-        $('#exampleRecipe').addClass('hidden');
         $('#results').empty();
 
         console.log(userHeight, userWeight, userAge, userActivityLevel, userSex);
@@ -149,45 +136,48 @@ function watchUserInput() {
 function renderInputForm() {
     $('#userDataInput').empty();
     $('#userDataInput').append(`
-    <div class="form-container-1" id="js-scroll">
-      <label>Anthropometric Data:</label><br>
-      <label>Height (in):</label>
-      <input type="number" id="height" value="74"><br>
+    <div class="user-input-form" id="js-scroll">
+        <div class="form-container-1">
+        <label>Anthropometric Data:</label><br>
+        <label>Height (in):</label>
+        <input type="number" id="height" value="74"><br>
 
-      <label>Weight (lbs):</label>
-      <input type="number" id="weight" value="195"><br>
+        <label>Weight (lbs):</label>
+        <input type="number" id="weight" value="195"><br>
 
-      <label>Age in years:</label>
-      <input type="number" id="age" value="45"><br>
-    </div>
+        <label>Age in years:</label>
+        <input type="number" id="age" value="45"><br>
+        </div>
 
-    <div class="form-container-2">
-      <label>Activity Level:</label><br>
-      <input type="radio" id="sedentary" name="activityLevel"  value="1.2" checked>
-      <label for="sedentary">Sedentary</label><br>
+        <div class="form-container-2">
+        <label>Activity Level:</label><br>
+        <input type="radio" id="sedentary" name="activityLevel"  value="1.2" checked>
+        <label for="sedentary">Sedentary</label><br>
 
-      <input type="radio" id="light" name="activityLevel" value="1.375">
-      <label for="light">Lightly Active</label><br>
+        <input type="radio" id="light" name="activityLevel" value="1.375">
+        <label for="light">Lightly Active</label><br>
 
-      <input type="radio" id="moderate" name="activityLevel" value="1.55">
-      <label for="moderate">Moderately Active</label><br>
+        <input type="radio" id="moderate" name="activityLevel" value="1.55">
+        <label for="moderate">Moderately Active</label><br>
 
-      <input type="radio" id="very" name="activityLevel" value="1.725">
-      <label for="very">Very Active</label><br>
+        <input type="radio" id="very" name="activityLevel" value="1.725">
+        <label for="very">Very Active</label><br>
 
-      <input type="radio" id="extra" name="activityLevel" value="1.9">
-      <label for="extra">Extra Active</label><br>
-    </div>
+        <input type="radio" id="extra" name="activityLevel" value="1.9">
+        <label for="extra">Extra Active</label><br>
+        </div>
 
-    <div class="form-container-3">
-      <label>Sex:</label><br>
-      <input type="radio" id="female" name="sex" value="female" checked>
-      <label for="female">Female</label><br>
+        <div class="form-container-3">
+        <label>Sex:</label><br>
 
-      <input type="radio" id="male" name="sex" value="male">
-      <label for="male">Male</label><br>
+        <input type="radio" id="male" name="sex" value="male" checked>
+        <label for="male">Male</label>
 
-      <input type="submit">
+        <input type="radio" id="female" name="sex" value="female">
+        <label for="female">Female</label><br>
+
+        <input type="submit">
+        </div>
     </div>
     `)
 
@@ -207,61 +197,8 @@ function watchStartButton() {
     console.log('watchStartButton ran');
 }
 
-function renderExample(responseJson) {
-    const exampleYield = responseJson.hits[0].recipe.yield;
-    const exampleFat = Math.round(responseJson.hits[0].recipe.totalNutrients.FAT['quantity'] / exampleYield);
-    const examplePro = Math.round(responseJson.hits[0].recipe.totalNutrients.PROCNT['quantity'] / exampleYield);
-    const exampleCho = Math.round(responseJson.hits[0].recipe.totalNutrients.CHOCDF['quantity'] / exampleYield);
-    const exampleCal = Math.round(responseJson.hits[0].recipe.totalNutrients.ENERC_KCAL['quantity'] / exampleYield);
-
-    $('#exampleRecipe').prepend(
-        `<h2>${responseJson.hits[0].recipe.label}</h2>
-        <img src="${responseJson.hits[0].recipe.image}" class="resultsImage" alt="picture of ${responseJson.hits[0].recipe.label}">
-        <h3 class="headers">Ingredients</h3>
-        <ul id="exampleIngredientsList"></ul>
-        <h3 class="headers">Nutrition Facts</h3>
-        <ul id="exampleNutritionFacts">
-        <li>Serves: ${exampleYield}</li>
-        <li>Calories: ${exampleCal} kCal</li>
-        <li>Carbohydrates: ${exampleCho}g</li>
-        <li>Protein: ${examplePro}g</li>
-        <li>Fats: ${exampleFat}g</li>
-        </ul>
-        <h3 class="headers"><a href="${responseJson.hits[0].recipe.url}" target="_blank">Directions</a><h3>
-        `
-    )
-    
-    console.log(responseJson.hits[0].recipe.url);
-    for (let i = 0; i < responseJson.hits[0].recipe.ingredientLines.length; i++) {
-        $('#exampleIngredientsList').append(`<li>${responseJson.hits[0].recipe.ingredientLines[i]}<li>`);   
-    }
-
-    $('#exampleRecipe').removeClass('hidden');
-    shopifyExample(responseJson);
-}
-
-function getExampleRecipe() {
-    const url = `https://api.edamam.com/search?q=${query}&app_id=${appID}&app_key=${appKey}`;
-
-    fetch(url)
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error('broken');
-    })
-    // .then(responseJson => console.log(responseJson))
-    .then(responseJson => renderExample(responseJson))
-    .catch(err => {
-        $('#js-error-message').text(`That didn't work!`)
-        $('#js-error-message').removeClass('hidden');
-    });
-}
-
 $(function() {
     console.log('EATWE11 ready');
-    getExampleRecipe();
-    console.log('Getting example recipe');
     watchStartButton();
     console.log('Watching start button')
 });
