@@ -59,39 +59,13 @@ function renderResults(responseJson) {
     
     $('#results').removeClass('hidden');
     shopify(responseJson);
+    const scrollToForm = document.getElementById("results");
+    scrollToForm.scrollIntoView({behavior: 'smooth'});
 }
 
 
-function getRecipe(breakfastQuery, lunchQuery, dinnerQuery) {
-    fetch(breakfastQuery)
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error('broken');
-    })
-    // .then(responseJson => console.log(responseJson))
-    .then(responseJson => renderResults(responseJson))
-    .catch(err => {
-        $('#js-error-message').text(`That didn't work!`)
-        $('#js-error-message').removeClass('hidden');
-    });
-
-    fetch(lunchQuery)
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error('broken');
-    })
-    // .then(responseJson => console.log(responseJson))
-    .then(responseJson => renderResults(responseJson))
-    .catch(err => {
-        $('#js-error-message').text(`That didn't work!`)
-        $('#js-error-message').removeClass('hidden');
-    });
-
-    fetch(dinnerQuery)
+function getRecipe(recipeQuery) {
+    fetch(recipeQuery)
     .then(response => {
         if (response.ok) {
             return response.json();
@@ -106,17 +80,32 @@ function getRecipe(breakfastQuery, lunchQuery, dinnerQuery) {
     });
 }
 
-function generateUserRecipeQuery(userTDEE) {
+function generateUserRecipeQuery(queryItem, userTDEE) {
     let calPerMealMin = Math.round(userTDEE / 3 - 50)
     let calPerMealMax = Math.round(userTDEE / 3 + 50)
-    let breakfastQuery = `https://api.edamam.com/search?q=&app_id=${appID}&app_key=${appKey}&dishtype=breakfast&calories=${calPerMealMin}-${calPerMealMax}`;
-    let lunchQuery = `https://api.edamam.com/search?q=&app_id=${appID}&app_key=${appKey}&diet=balanced&dishtype=lunch&calories=${calPerMealMin}-${calPerMealMax}`;
-    let dinnerQuery = `https://api.edamam.com/search?q=&app_id=${appID}&app_key=${appKey}&diet=balanced&dishtype=dinner&calories=${calPerMealMin}-${calPerMealMax}`;
+    let recipeQuery = `https://api.edamam.com/search?q=${queryItem}&app_id=${appID}&app_key=${appKey}&calories=${calPerMealMin}-${calPerMealMax}`;
 
     console.log('generating user recipe query!');
     console.log(userTDEE, calPerMealMin, calPerMealMax);
 
-    getRecipe(breakfastQuery, lunchQuery, dinnerQuery);
+    getRecipe(recipeQuery);
+}
+
+function generateRecipeKeyword(userTDEE) {
+    const recipeKeywords = [
+        "chicken",
+        "egg",
+        "bean",
+        "beef",
+        "rice",
+        "orange",
+        "pasta",
+        "taco",
+        "salmon"
+    ];
+
+    let queryItem = recipeKeywords[Math.floor(Math.random()*recipeKeywords.length)];
+    generateUserRecipeQuery(queryItem, userTDEE)
 }
 
 function userTDEECalc(userHeight, userWeight, userAge, userActivityLevel, userSex) {
@@ -132,7 +121,7 @@ function userTDEECalc(userHeight, userWeight, userAge, userActivityLevel, userSe
     console.log(userTDEE);
     console.log('userTDEECalc ran');
 
-    generateUserRecipeQuery(userTDEE);
+    generateRecipeKeyword(userTDEE);
 }
 
 function watchUserInput() {
@@ -143,8 +132,9 @@ function watchUserInput() {
         const userAge = $('#age').val();
         const userActivityLevel = $('input[name=activityLevel]:checked').val()
         const userSex = $("input[name=sex]:checked").val();
-        
+
         $('#exampleRecipe').addClass('hidden');
+        $('#results').empty();
 
         console.log(userHeight, userWeight, userAge, userActivityLevel, userSex);
         userTDEECalc(userHeight, userWeight, userAge, userActivityLevel, userSex);
@@ -156,7 +146,7 @@ function watchUserInput() {
 function renderInputForm() {
     $('#userDataInput').empty();
     $('#userDataInput').append(`
-    <div class="form-container-1">
+    <div class="form-container-1" id="js-scroll">
       <label>Anthropometric Data:</label><br>
       <label>Height (in):</label>
       <input type="number" id="height" value="74"><br>
@@ -204,16 +194,11 @@ function renderInputForm() {
     watchUserInput();
 }
 
-function hideStartButton() {
-    $('.js-start-button').addClass('hidden');
-
-    console.log('hiding that button yeah!');
-}
-
 function watchStartButton() {
     $('.js-start-button').click(event => {
-        hideStartButton();
         renderInputForm();
+        const scrollToForm = document.getElementById("js-scroll");
+        scrollToForm.scrollIntoView({behavior: 'smooth'});
     });
     
     console.log('watchStartButton ran');
@@ -271,6 +256,8 @@ function getExampleRecipe() {
 }
 
 $(function() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
     console.log('EATWE11 ready');
     getExampleRecipe();
     console.log('Getting example recipe');
