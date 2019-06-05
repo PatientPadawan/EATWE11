@@ -8,7 +8,7 @@ let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
 
 function shopify(responseJson) {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
         whisk.queue.push(function() {
             whisk.listeners.addClickListener(`whisk-button${[i]}`, 'shoppingList.addRecipeToList', {
                 recipeUrl: `${responseJson.hits[i].recipe.url}`,
@@ -30,7 +30,7 @@ function scrollToTop() {
 }
 
 function renderResults(responseJson) {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
         let recipeYield = responseJson.hits[i].recipe.yield;
         let fat = Math.round(responseJson.hits[i].recipe.totalNutrients.FAT['quantity'] / recipeYield);
         let pro = Math.round(responseJson.hits[i].recipe.totalNutrients.PROCNT['quantity'] / recipeYield);
@@ -40,7 +40,7 @@ function renderResults(responseJson) {
         $('#results').append(
             `<div class="resultsContainer" id="js-results-container">
                 <h2>${responseJson.hits[i].recipe.label}</h2>
-                <img src="${responseJson.hits[i].recipe.image}" class="resultsImage" alt="picture of ${responseJson.hits[i].recipe.label}">
+                <img src="${responseJson.hits[i].recipe.image}" class="resultsImage" alt="picture of ${responseJson.hits[i].recipe.label}"><br>
                 <button type="button" class="shopRecipe headers" id="whisk-button${[i]}">Shop</button>
                 <span class="recipeDirections headers"><a href="${responseJson.hits[i].recipe.url}" target="_blank">Directions</a></span>
                 <div class="factStyle">
@@ -126,12 +126,12 @@ function userTDEECalc(userHeight, userWeight, userAge, userActivityLevel, userSe
 function watchUserInput() {
     $('#userDataInput').submit(event => {
         event.preventDefault();
+        $('#results').empty();
         const userHeight = $('#height').val();
         const userWeight = $('#weight').val();
         const userAge = $('#age').val();
         const userActivityLevel = $('input[name=activityLevel]:checked').val()
         const userSex = $("input[name=sex]:checked").val();
-        $('#results').empty();
 
         console.log(userHeight, userWeight, userAge, userActivityLevel, userSex);
         userTDEECalc(userHeight, userWeight, userAge, userActivityLevel, userSex);
