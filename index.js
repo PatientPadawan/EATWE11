@@ -25,7 +25,7 @@ function shopify(responseJson) {
 
 function scrollToTop() {
     $('.scrollToTop').click(event => {
-        const scrollToTop = document.getElementById("js-landing");
+        const scrollToTop = document.getElementById("js-scroll");
         scrollToTop.scrollIntoView({behavior: 'smooth'});
     });
 }
