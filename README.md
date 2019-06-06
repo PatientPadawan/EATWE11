@@ -10,16 +10,15 @@ https://patientpadawan.github.io/EATWE11/
 ## Screenshots
 Mobile Screen/Landing Page:
 
-![landing page](https:\\raw.github.com\PatientPadawan\EATWE11\master\images\Mobile-landing.PNG?raw=true)
+![Mobile-landing](https://user-images.githubusercontent.com/49569154/59057243-cd051600-884e-11e9-9f8e-511c84fc5fd1.PNG)
 
 Mobile User Input Form:
 
-![mobile form](images\mobile-form.PNG?raw=true)
+![mobile-form](https://user-images.githubusercontent.com/49569154/59057174-ae068400-884e-11e9-9b22-34f5212a1abb.PNG)
 
 Desktop Recipes:
 
-![desktop recipes](images\desktop-recipe.PNG?raw=true)
-
+![desktop-recipe](https://user-images.githubusercontent.com/49569154/59057260-d9896e80-884e-11e9-9698-35cf8de17947.PNG)
 
 ## Built with
 * HTML
