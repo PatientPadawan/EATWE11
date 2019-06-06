@@ -42,7 +42,7 @@ function renderResults(responseJson) {
             `<div class="resultsContainer" id="js-results-container">
                 <h2>${responseJson.hits[i].recipe.label}</h2>
                 <img src="${responseJson.hits[i].recipe.image}" class="resultsImage" alt="picture of ${responseJson.hits[i].recipe.label}"><br>
-                <button type="button" class="shopRecipe headers" id="whisk-button${[i]}">Shop</button>
+                <button type="button" class="shopRecipe headers" id="whisk-button${[i]}" role="button">Shop</button>
                 <span class="recipeDirections headers"><a href="${responseJson.hits[i].recipe.url}" target="_blank">Directions</a></span>
                 <div class="factStyle">
                     <h3 class="headers">Nutrition Facts</h3>
@@ -149,34 +149,34 @@ function renderInputForm() {
         <input type="number" id="age" value="45"><br>
         </div>
 
-        <div class="form-container">
+        <div class="form-container" role="radiogroup">
         <label>Activity Level:</label><br>
-        <input type="radio" id="sedentary" name="activityLevel"  value="1.2" checked>
+        <input type="radio" id="sedentary" name="activityLevel"  value="1.2" role="radio" aria-checked="true" checked>
         <label for="sedentary">Sedentary</label><br>
 
-        <input type="radio" id="light" name="activityLevel" value="1.375">
+        <input type="radio" id="light" name="activityLevel" value="1.375" role="radio" aria-checked="false">
         <label for="light">Lightly Active</label><br>
 
-        <input type="radio" id="moderate" name="activityLevel" value="1.55">
+        <input type="radio" id="moderate" name="activityLevel" value="1.55" role="radio" aria-checked="false">
         <label for="moderate">Moderately Active</label><br>
 
-        <input type="radio" id="very" name="activityLevel" value="1.725">
+        <input type="radio" id="very" name="activityLevel" value="1.725" role="radio" aria-checked="false">
         <label for="very">Very Active</label><br>
 
-        <input type="radio" id="extra" name="activityLevel" value="1.9">
+        <input type="radio" id="extra" name="activityLevel" value="1.9" role="radio" aria-checked="false">
         <label for="extra">Extra Active</label><br>
         </div>
 
-        <div class="form-container">
+        <div class="form-container" role="radiogroup">
         <label>Sex:</label><br>
 
-        <input type="radio" id="male" name="sex" value="male" checked>
+        <input type="radio" id="male" name="sex" value="male" role="radio" aria-checked="true" checked>
         <label for="male">Male</label>
 
-        <input type="radio" id="female" name="sex" value="female">
+        <input type="radio" id="female" name="sex" value="female" role="radio" aria-checked="false">
         <label for="female">Female</label><br>
 
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" role="button">
         </div>
     </div>
     `)
