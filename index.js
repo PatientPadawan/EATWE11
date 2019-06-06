@@ -7,6 +7,7 @@ const query = 'oatmeal, yogurt'
 let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
 
+// adds whisk event listener to shop button 
 function shopify(responseJson) {
     for (let i = 0; i < 4; i++) {
         whisk.queue.push(function() {
@@ -53,16 +54,15 @@ function renderResults(responseJson) {
                         <li>Fats: ${fat}g</li>
                     </ul>
                 </div>
-                </div>
+            </div>
             `
         )
         
         console.log(responseJson.hits[i].recipe.url);
     }
     
-    $('#results').append(`<button class="scrollToTop headers hidden">^</button>`);
+    $('#results').append(`<button class="scrollToTop headers">^</button>`);
     $('#results').removeClass('hidden');
-    $('.scrollToTop').removeClass('hidden');
     shopify(responseJson);
     scrollToTop();
 }
@@ -88,9 +88,7 @@ function generateUserRecipeQuery(queryItem, userTDEE) {
     let calPerMealMax = Math.round(userTDEE / 3 + 50)
     let recipeQuery = `https://api.edamam.com/search?q=${queryItem}&app_id=${appID}&app_key=${appKey}&calories=${calPerMealMin}-${calPerMealMax}`;
 
-    console.log('generating user recipe query!');
     console.log(userTDEE, calPerMealMin, calPerMealMax);
-
     getRecipe(recipeQuery);
 }
 
@@ -118,8 +116,6 @@ function userTDEECalc(userHeight, userWeight, userAge, userActivityLevel, userSe
     }
 
     console.log(userTDEE);
-    console.log('userTDEECalc ran');
-
     generateRecipeKeyword(userTDEE);
 }
 
@@ -136,15 +132,13 @@ function watchUserInput() {
         console.log(userHeight, userWeight, userAge, userActivityLevel, userSex);
         userTDEECalc(userHeight, userWeight, userAge, userActivityLevel, userSex);
     });
-
-    console.log('watchUserInput ran');
 }
 
 function renderInputForm() {
     $('#userDataInput').empty();
     $('#userDataInput').append(`
     <div class="user-input-form" id="js-scroll">
-        <div class="form-container-1">
+        <div class="form-container">
         <label>Anthropometric Data:</label><br>
         <label>Height (in):</label>
         <input type="number" id="height" value="74"><br>
@@ -156,7 +150,7 @@ function renderInputForm() {
         <input type="number" id="age" value="45"><br>
         </div>
 
-        <div class="form-container-2">
+        <div class="form-container">
         <label>Activity Level:</label><br>
         <input type="radio" id="sedentary" name="activityLevel"  value="1.2" checked>
         <label for="sedentary">Sedentary</label><br>
@@ -174,7 +168,7 @@ function renderInputForm() {
         <label for="extra">Extra Active</label><br>
         </div>
 
-        <div class="form-container-3">
+        <div class="form-container">
         <label>Sex:</label><br>
 
         <input type="radio" id="male" name="sex" value="male" checked>
@@ -189,8 +183,6 @@ function renderInputForm() {
     `)
 
     $('#userDataInput').removeClass('hidden');
-    console.log('renderUserInputForm ran');
-
     watchUserInput();
 }
 
@@ -200,8 +192,6 @@ function watchStartButton() {
         const scrollToForm = document.getElementById("js-scroll");
         scrollToForm.scrollIntoView({behavior: 'smooth'});
     });
-    
-    console.log('watchStartButton ran');
 }
 
 $(function() {
