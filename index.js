@@ -95,7 +95,6 @@ function generateUserRecipeQuery(queryItem, userTDEE) {
 function generateRecipeKeyword(userTDEE) {
     const recipeKeywords = [
         "chicken",
-        "bean",
         "pasta",
         "taco",
         "salmon"
