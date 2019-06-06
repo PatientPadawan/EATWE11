@@ -180,14 +180,12 @@ function renderInputForm() {
         </div>
     </div>
     `)
-
-    $('#userDataInput').removeClass('hidden');
     watchUserInput();
 }
 
 function watchStartButton() {
     $('.js-start-button').click(event => {
-        renderInputForm();
+        $('#userDataInput').removeClass('hidden');
         const scrollToForm = document.getElementById("js-scroll");
         scrollToForm.scrollIntoView({behavior: 'smooth'});
     });
@@ -196,4 +194,5 @@ function watchStartButton() {
 $(function() {
     console.log('EATWE11 ready');
     watchStartButton();
+    renderInputForm();
 });
