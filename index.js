@@ -177,7 +177,7 @@ function renderInputForm() {
         <input type="radio" id="female" name="sex" value="female">
         <label for="female">Female</label><br>
 
-        <input type="submit">
+        <input type="submit" value="Submit">
         </div>
     </div>
     `)
