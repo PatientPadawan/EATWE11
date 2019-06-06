@@ -15,10 +15,7 @@ function shopify(responseJson) {
                 recipeUrl: `${responseJson.hits[i].recipe.url}`,
             });
         });
-        console.log(`whisk ran on recipe ${[i]}`);
-        console.log(responseJson.hits[i].recipe.url);
     }
-
     const scrollToForm = document.getElementById("js-results-container");
     scrollToForm.scrollIntoView({behavior: 'smooth'});
 }
@@ -57,10 +54,7 @@ function renderResults(responseJson) {
             </div>
             `
         )
-        
-        console.log(responseJson.hits[i].recipe.url);
     }
-    
     $('#results').append(`<button class="scrollToTop headers">^</button>`);
     $('#results').removeClass('hidden');
     shopify(responseJson);
@@ -87,8 +81,6 @@ function generateUserRecipeQuery(queryItem, userTDEE) {
     let calPerMealMin = Math.round(userTDEE / 3 - 50)
     let calPerMealMax = Math.round(userTDEE / 3 + 50)
     let recipeQuery = `https://api.edamam.com/search?q=${queryItem}&app_id=${appID}&app_key=${appKey}&calories=${calPerMealMin}-${calPerMealMax}`;
-
-    console.log(userTDEE, calPerMealMin, calPerMealMax);
     getRecipe(recipeQuery);
 }
 
@@ -114,7 +106,6 @@ function userTDEECalc(userHeight, userWeight, userAge, userActivityLevel, userSe
         userTDEE = ((10 * weight) + (6.25 * height) - (5 * userAge) -161) * userActivityLevel
     }
 
-    console.log(userTDEE);
     generateRecipeKeyword(userTDEE);
 }
 
@@ -127,8 +118,6 @@ function watchUserInput() {
         const userAge = $('#age').val();
         const userActivityLevel = $('input[name=activityLevel]:checked').val()
         const userSex = $("input[name=sex]:checked").val();
-
-        console.log(userHeight, userWeight, userAge, userActivityLevel, userSex);
         userTDEECalc(userHeight, userWeight, userAge, userActivityLevel, userSex);
     });
 }
@@ -192,7 +181,6 @@ function watchStartButton() {
 }
 
 $(function() {
-    console.log('EATWE11 ready');
     watchStartButton();
     renderInputForm();
 });
